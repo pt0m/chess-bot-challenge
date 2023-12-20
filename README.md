@@ -1,5 +1,6 @@
 # Chess Bot Challenge
 
+For a little challenge for friends
 
 ## TLDR
 
