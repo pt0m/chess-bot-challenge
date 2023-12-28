@@ -11,6 +11,7 @@ import os
 import BotTemplate
 import inspect
 import tokenize
+from colorama import init, Fore, Style
 
 
 TOKEN_NOT_COUNTED_IN_CODE_SIZE = [tokenize.COMMENT]
@@ -64,7 +65,20 @@ def board_position_as_upper_and_lower_cases_letters(board):
                 foo2.append(thing)
         foo.append(foo2)
     return foo
+init(autoreset=True)
+def print_highlighted_board(board):
+    board_str = str(board)
+    highlighted_board_str = ""
 
+    for char in board_str:
+        if char.isupper():  # Uppercase letters represent white pieces
+            highlighted_board_str += f"{Fore.WHITE}{Style.BRIGHT}{char}{Style.RESET_ALL}"
+        elif char.islower():  # Lowercase letters represent black pieces
+            highlighted_board_str += f"{Fore.RED}{Style.BRIGHT}{char}{Style.RESET_ALL}"
+        else:
+            highlighted_board_str += char  # Non-alphabetic characters (e.g., numbers) remain unchanged
+
+    print(highlighted_board_str)
 
 def run_battle(args):
     """
@@ -83,8 +97,9 @@ def run_battle(args):
     board = chess.Board()
     current_player = -1 # the first player to play is 0 then 1 then 0 then 1 ....
     while not board.is_game_over():
+        #time.sleep(1)
         if(args.verbose):
-            print(board)
+            print_highlighted_board(board)
             print("===========================")
         current_player = (current_player + 1) % 2
         board_position = board_position_as_upper_and_lower_cases_letters(board)
@@ -113,7 +128,7 @@ def run_battle(args):
         
         
     if(args.verbose):   
-        print(board)
+        print_highlighted_board(board)
     print(f"resultat entre {names[0]} et {names[1]} : {board.result()}")
 
 
